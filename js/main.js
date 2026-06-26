@@ -143,16 +143,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .then(response => {
                         if (response.ok) {
-                            successOverlay.classList.add('active');
+                            Swal.fire({
+                                title: '¡Mensaje Enviado!',
+                                text: 'Nos pondremos en contacto contigo en las próximas horas.',
+                                icon: 'success',
+                                background: '#1c2035',
+                                color: '#ffffff',
+                                confirmButtonColor: '#2979ff'
+                            });
+                            contactForm.reset();
                         } else {
                             response.json().then(data => {
                                 console.error('Formspree error details:', data);
                             }).catch(() => {});
-                            alert('Hubo un problema al enviar tu mensaje. Por favor, intenta nuevamente o escríbenos directamente por WhatsApp.');
+                            Swal.fire({
+                                title: 'Hubo un problema',
+                                text: 'No pudimos enviar tu mensaje. Por favor, intenta de nuevo o escríbenos por WhatsApp.',
+                                icon: 'error',
+                                background: '#1c2035',
+                                color: '#ffffff',
+                                confirmButtonColor: '#2979ff'
+                            });
                         }
                     })
                     .catch(error => {
-                        alert('Hubo un error de conexión al enviar el formulario.');
+                        Swal.fire({
+                            title: 'Error de Conexión',
+                            text: 'No se pudo establecer conexión para enviar el formulario. Intenta nuevamente.',
+                            icon: 'error',
+                            background: '#1c2035',
+                            color: '#ffffff',
+                            confirmButtonColor: '#2979ff'
+                        });
                     })
                     .finally(() => {
                         submitBtn.disabled = false;
@@ -161,7 +183,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     // Simulación local si no se ha configurado Formspree
                     setTimeout(() => {
-                        successOverlay.classList.add('active');
+                        Swal.fire({
+                            title: '¡Mensaje Enviado! (Simulación)',
+                            text: 'El formulario está configurado en modo simulación y ha respondido correctamente.',
+                            icon: 'success',
+                            background: '#1c2035',
+                            color: '#ffffff',
+                            confirmButtonColor: '#2979ff'
+                        });
+                        contactForm.reset();
                         submitBtn.disabled = false;
                         submitBtn.innerText = 'Enviar Mensaje';
                     }, 1200);
