@@ -145,7 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (response.ok) {
                             successOverlay.classList.add('active');
                         } else {
-                            alert('Hubo un problema al enviar el formulario. Intenta nuevamente.');
+                            response.json().then(data => {
+                                console.error('Formspree error details:', data);
+                                const errorMsg = data.error || (data.errors && data.errors.map(e => e.message).join(', ')) || 'Error desconocido';
+                                alert('Error de Formspree: ' + errorMsg);
+                            }).catch(() => {
+                                alert('Hubo un problema al enviar el formulario. Intenta nuevamente.');
+                            });
                         }
                     })
                     .catch(error => {
